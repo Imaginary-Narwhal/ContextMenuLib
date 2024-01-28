@@ -48,7 +48,7 @@ Sample.Frame.TestButton:SetScript("OnClick", function(self, button)
             menuItems = {
                 {
                     header = {
-                        name = "First Header",
+                        name = "\124cFF905020First Header\124r",
                         menuItems = {
                             {
                                 name = "First Sub Item",
@@ -128,6 +128,7 @@ Sample.Frame.TestButton:SetScript("OnClick", function(self, button)
                 },
                 {
                     name = "Second Item",
+                    color = "FF00FF80",
                     tooltip = {
                         title = "SECOND with a check!",
                         lines = {

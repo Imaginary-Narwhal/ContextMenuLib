@@ -72,7 +72,12 @@ function ContextMenuItemList:Init(data)
                 frame.Checkbox_Check:Hide()
             end
         end
-        frame.Text:SetText(data.name)
+        local text = data.name
+        if(data.color) then
+            text = "\124c" .. data.color .. data.name .. "\124r"
+        end
+
+        frame.Text:SetText(text)
         frame.Text:SetPoint("TOPLEFT", indent, 0)
     end
 end
@@ -256,11 +261,11 @@ end
                 -- Name of the first item, required!
                 name = "First item",
 
-                -- Icon settings (leave table nil for no icon)
+                -- Icon settings (leave out for no icon)
                 icon = 134400, -- (can be either normal or atlas)
 
-                -- Color of menu item, blank for default color (use \124cAARRGGBB for formatting) the closing escape code will be added automatically.
-                color = "\124cFFFF00FF"
+                -- Color of menu item, works for both item and headers.
+                color = "FFFF00FF" -- (uses hex: AARRGGBB, no has)
 
                 -- Sets if a checkbox will be drawn (does not work with header) Checkbox will be before the icon if one is set
                 isCheckbox = false
