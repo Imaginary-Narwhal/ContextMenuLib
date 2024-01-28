@@ -18,6 +18,11 @@ Sample.Frame:Init()                      -- Initialize the ContextMenu frame bef
 Sample.Frame:SetSize(200, 200)
 Sample.Frame:SetPoint("TOPLEFT", 100, -100)
 
+
+local firstCheck = true
+local secondCheck = false
+
+
 Sample.Frame.TestButton = CreateFrame("Button", "SampleFrame_TestButton", Sample.Frame, "UIPanelButtonTemplate")
 Sample.Frame.TestButton:SetText("Right Click Me")
 Sample.Frame.TestButton:SetWidth(150)
@@ -26,9 +31,12 @@ Sample.Frame.TestButton:RegisterForClicks("AnyUp")
 Sample.Frame.TestButton:SetScript("OnClick", function(self, button)
     if (button == "RightButton") then
         local tempTable = {}
-        for i=1, 15 do
+        for i = 1, 50 do
             table.insert(tempTable, {
-                name = "Item " .. i
+                name = "Item " .. i,
+                func = function()
+                    message("You clicked item number " ..i)
+                end
             })
         end
 
@@ -36,11 +44,11 @@ Sample.Frame.TestButton:SetScript("OnClick", function(self, button)
         local contextInfo = {
             title = "Sample Context Menu",
             parent = self,
-            --maximumWidth = 300,
+            maximumHeight = 400,
             menuItems = {
                 {
                     header = {
-                        name = "This is it",
+                        name = "First Header",
                         menuItems = {
                             {
                                 name = "First Sub Item",
@@ -66,7 +74,7 @@ Sample.Frame.TestButton:SetScript("OnClick", function(self, button)
                                 end
                             },
                             {
-                                name = "Testing an absolute beast of a button name",
+                                name = "Second sub item",
                                 tooltip = {
                                     title = "SECOND with a check!",
                                     lines = {
@@ -86,16 +94,18 @@ Sample.Frame.TestButton:SetScript("OnClick", function(self, button)
                                 isCheckbox = false,
                                 isChecked = true,
                                 func = function()
-                                    print("Would check the box when it works")
+                                    message("Clicked second sub item")
                                 end
                             }
                         }
                     }
                 },
                 {
-                    name = "F",
+                    name = "First check",
                     icon = 134400,
                     isCheckbox = true,
+                    isChecked = firstCheck,
+                    closeOnClick = true,
                     tooltip = {
                         title = "First!",
                         lines = {
@@ -113,7 +123,7 @@ Sample.Frame.TestButton:SetScript("OnClick", function(self, button)
                         }
                     },
                     func = function()
-                        print("Clicked first!")
+                        firstCheck = not firstCheck
                     end
                 },
                 {
@@ -135,9 +145,9 @@ Sample.Frame.TestButton:SetScript("OnClick", function(self, button)
                         }
                     },
                     isCheckbox = true,
-                    isChecked = false,
+                    isChecked = secondCheck,
                     func = function()
-                        print("Would check the box when it works")
+                        secondCheck = not secondCheck
                     end
                 },
                 {
@@ -149,6 +159,37 @@ Sample.Frame.TestButton:SetScript("OnClick", function(self, button)
             }
         }
         Sample.Frame:ShowContextMenu(contextInfo)
+    end
+end)
+
+Sample.Frame.TestButton2 = CreateFrame("Button", "SampleFrame_TestButton2", Sample.Frame, "UIPanelButtonTemplate")
+Sample.Frame.TestButton2:SetText("Or Right Click Me")
+Sample.Frame.TestButton2:SetWidth(150)
+Sample.Frame.TestButton2:SetPoint("TOPLEFT", Sample.Frame.TestButton, "BOTTOMLEFT", 0, -5)
+Sample.Frame.TestButton2:RegisterForClicks("AnyUp")
+Sample.Frame.TestButton2:SetScript("OnClick", function(self, button)
+    if (button == "RightButton") then
+        Sample.Frame:ShowContextMenu({
+            title = "Click Bitch",
+            parent = self,
+            menuItems = {
+                {
+                    name = "Clickith me",
+                    tooltip = {
+                        title = "CLICK!",
+                        lines = {
+                            {
+                                text = "Click me to close the parent",
+                                type = "ERROR"
+                            }
+                        }
+                    },
+                    func = function()
+                        Sample.Frame:Hide()
+                    end
+                }
+            }
+        })
     end
 end)
 

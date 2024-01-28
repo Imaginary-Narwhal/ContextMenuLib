@@ -5,6 +5,8 @@ local baseItemIndent = 20
 local subItemIndent = baseItemIndent + 10
 local itemEndMargin = 4
 
+local maxHeight = GetScreenHeight()
+
 ContextMenuLibMixin = {}
 
 local contextMenuItems = {}
@@ -137,7 +139,19 @@ function ContextMenu:OnElementClicked(element, button)
             contextMenuItems[data.key].header.isCollapsed = not contextMenuItems[data.key].header.isCollapsed
             self:RefreshView()
         else
-
+            if(data.func) then
+                data.func()
+            end
+            if(data.isCheckbox) then
+                if(data.closeOnClick) then
+                    self:Hide()
+                else
+                    data.isChecked = not data.isChecked
+                    self:RefreshView()
+                end
+            else
+                self:Hide()
+            end
         end
     end
 end
@@ -205,6 +219,15 @@ function ContextMenu:RefreshView()
             end
         end
         self.ScrollView:SetDataProvider(data, ScrollBoxConstants.RetainScrollPosition)
+
+        local frameHeight = self.ScrollView:GetExtent() + 33
+        if(frameHeight > maxHeight) then
+            frameHeight = maxHeight
+        end
+        if(frameHeight < 65) then --Minimum height before frame glitches
+            frameHeight = 65
+        end
+        self:SetHeight(frameHeight)
 
         --Next line adds the DataProvider to a global variale for easy access in WoW.
         SampleContextData = self.ScrollView.dataProvider.collection
@@ -286,22 +309,13 @@ end
     }
 ]]
 
-
---[[FOR LATER USE
-icon:SetSize(16,16);
-if(info.icon and C_Texture.GetAtlasInfo(info.icon)) then
-    icon:SetAtlas(info.icon);
-else
-    icon:SetTexture(info.icon);
-end
-]]
-
-
-
-
-
 function ContextMenu:Open(contextInfo)
     self:SetTitle(contextInfo.title)
+    if(contextInfo.maximumHeight) then
+        if(maxHeight >= contextInfo.maximumHeight) then
+            maxHeight = contextInfo.maximumHeight
+        end
+    end
     if (not contextInfo.parent) then
         error("contextInfo.parent (expected table, got nil)", 2)
     end
@@ -341,8 +355,8 @@ function ContextMenu:Open(contextInfo)
             end
         end
     end
-
     self:RefreshView()
+
 
 
     local frameWidth = longestText + 38
@@ -365,7 +379,8 @@ function ContextMenu:Open(contextInfo)
     if (frameWidth < 138) then
         frameWidth = 138
     end
-    self:SetSize(frameWidth, 200) --Set size based on content with maximumHeight and maximumWidth settings
+    self:SetWidth(frameWidth) --Set size based on content with maximumWidth
+
     self:Show()
     self:RegisterEvent("GLOBAL_MOUSE_DOWN")
 end

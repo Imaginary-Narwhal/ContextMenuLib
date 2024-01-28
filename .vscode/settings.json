@@ -13,6 +13,7 @@
         "GameTooltip_AddInstructionLine",
         "GameTooltip_AddHighlightLine",
         "GameTooltip_AddErrorLine",
-        "ScrollBoxConstants"
+        "ScrollBoxConstants",
+        "message"
     ]
 }
