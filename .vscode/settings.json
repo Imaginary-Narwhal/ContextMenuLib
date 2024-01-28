@@ -1,0 +1,18 @@
+{
+    "Lua.diagnostics.globals": [
+        "ButtonFrameTemplate_HidePortrait",
+        "SlashCmdList",
+        "CreateScrollBoxListLinearView",
+        "CreateDataProvider",
+        "GenerateClosure",
+        "ScrollUtil",
+        "NO",
+        "NORMAL_FONT_COLOR",
+        "GameTooltip_SetTitle",
+        "GameTooltip_AddNormalLine",
+        "GameTooltip_AddInstructionLine",
+        "GameTooltip_AddHighlightLine",
+        "GameTooltip_AddErrorLine",
+        "ScrollBoxConstants"
+    ]
+}

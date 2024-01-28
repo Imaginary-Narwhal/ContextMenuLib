@@ -1,0 +1,13 @@
+## Interface: 100205
+
+## Title: ContextMenuLib Sample
+## Notes: A sample showing how CML works
+## Author: dragonflyy
+## Version: 0.1
+
+## DefaultState: Enabled
+## LoadOnDemand: 0
+
+libs/ContextMenuLib.xml
+
+Sample.lua
